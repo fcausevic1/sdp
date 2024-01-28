@@ -1,0 +1,8 @@
+{
+    "appService.defaultWebAppToDeploy": "undefined/subscriptions/9e6972dc-d5be-4340-9a3e-b4ebf28790a8/resourceGroups/sdp/providers/Microsoft.Web/sites/sdp-be",
+    "appService.deploySubpath": ".",
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ]
+}

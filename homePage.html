@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Form</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+            flex-direction: column; 
+        }
+
+        form {
+            text-align: center;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #resultDiv {
+            text-align: center;
+            color: #333;
+            width: 100%; 
+        }
+    </style>
+</head>
+<body>
+
+    <form id="sampleForm">
+        <label for="inputData">Search for users:</label>
+        <input type="text" id="inputData" name="inputData" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="resultDiv"></div>
+
+    <script>
+        document.getElementById('sampleForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Retrieve input value
+            var inputData = document.getElementById('inputData').value;
+
+            // Send data to Node.js backend
+            fetch('https://sdp-app-1.azurewebsites.net/test', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ inputData: inputData }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response from the backend
+                console.log('Result:', data);
+
+                // Update the resultDiv with the received HTML content and apply styles
+                var resultDiv = document.getElementById('resultDiv');
+                resultDiv.innerHTML = data.html;
+
+                // Add default styling if the response doesn't include styles
+                if (!data.style) {
+                    resultDiv.style.padding = '20px';
+                    resultDiv.style.borderRadius = '8px';
+                    resultDiv.style.backgroundColor = '#fff';
+                    resultDiv.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.1)';
+                    resultDiv.style.textAlign = 'center';
+                    resultDiv.style.color = '#333';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+
+</body>
+</html>
